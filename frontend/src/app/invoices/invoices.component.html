@@ -1,0 +1,9 @@
+<div class="container">
+  <button class="btn print-btn" (click)="onPrint()">Print</button>
+  @if (!enterEmail()) {
+  <button class="btn email-btn" (click)="onEmail()">Email</button>
+  } @else {
+  <button class="btn email-btn" (click)="onEmail()"><app-enter-email /></button>
+  }
+  <button class="btn download-btn" (click)="onDownload()">Download</button>
+</div>

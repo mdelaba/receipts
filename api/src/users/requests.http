@@ -1,0 +1,42 @@
+###Create new user
+POST http://localhost:3000/api/signup
+content-type: application/json
+
+{
+    "username": "master@gmail.com",
+    "password": "password"
+}
+
+###Sign in user
+POST http://localhost:3000/api/login
+content-type: application/json
+
+{
+    "username": "master@gmail.com",
+    "password": "password"
+}
+
+###Sign out user
+POST http://localhost:3000/api/signout
+
+###Create new invoice
+POST http://localhost:3000/api/newinvoice
+content-type: application/json
+
+{
+    "userId": 1,
+    "amount": 200,
+    "date": "2-3-2024",
+    "purpose": "built a patio"
+}
+
+###Get invoice
+GET http://localhost:3000/api/user/1
+
+###Email invoice
+POST http://localhost:3000/api/email/1
+content-type: application/json
+
+{
+    "email": "mattaman1234@gmail.com"
+}

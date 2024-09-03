@@ -1,0 +1,14 @@
+<div class="email-container">
+  <label for="email">Enter email:</label>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    placeholder="you@example.com"
+    [(ngModel)]="email"
+  />
+  <button class="btn" (click)="onSend()">Send</button>
+  @if (emailSent) {
+  <p>Email Sent!</p>
+  }
+</div>
