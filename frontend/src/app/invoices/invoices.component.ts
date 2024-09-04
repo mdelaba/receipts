@@ -3,6 +3,7 @@ import { ApiService } from '../api/api.service';
 import { EnterEmailComponent } from "./enter-email/enter-email.component";
 import { Router } from '@angular/router';
 
+console.log('InvoicesComponent loaded');
 @Component({
   selector: 'app-invoices',
   standalone: true,

@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>Receipt Input Form</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" formControlName="date" />
+
+    <label for="customerName">Customer Name:</label>
+    <input
+      type="text"
+      id="customerName"
+      name="customerName"
+      formControlName="customerName"
+    />
+
+    <label for="paymentMethod">Payment Method:</label>
+    <select
+      id="paymentMethod"
+      name="paymentMethod"
+      formControlName="paymentMethod"
+    >
+      <option value="Credit Card">Credit Card</option>
+      <option value="Debit Card">Debit Card</option>
+      <option value="Cash">Cash</option>
+      <option value="Paypal">PayPal</option>
+    </select>
+
+    <label for="amount">Amount:</label>
+    <input
+      type="number"
+      id="amount"
+      name="amount"
+      step="0.01"
+      formControlName="amount"
+    />
+
+    <label for="address">Address:</label>
+    <textarea
+      id="address"
+      name="address"
+      rows="4"
+      formControlName="address"
+    ></textarea>
+
+    <button>Submit</button>
+
+    @if (form.touched && form.invalid) {
+    <p class="control-error">Invalid form - please check your input data.</p>
+    }
+  </form>
+</div>

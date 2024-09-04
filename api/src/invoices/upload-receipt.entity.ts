@@ -1,19 +1,17 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class Invoice {
+export class UploadReceipt {
+
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    userId: number;
+    receipt_id: number;
 
     @Column()
-    amount: number;
+    local_url: string;
 
     @Column()
-    date: string;
-
-    @Column()
-    purpose: string;
+    azure_url: string;
 }

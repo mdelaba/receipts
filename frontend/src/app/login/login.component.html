@@ -26,7 +26,7 @@
     <p class="control-error">
       Please enter a valid password. Must be at least 6 characters long.
     </p>
-    } @if (loginInvalid()) {
+    } @if (loginInvalid() || formInvalid()) {
     <p class="control-error">
       Login failed. Username or password is incorrect.
     </p>

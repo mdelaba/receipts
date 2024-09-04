@@ -1,6 +1,7 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { InputReceipt } from '../invoices/invoice/input-receipt.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,18 @@ export class ApiService {
   postLoginInfo(username: string, password: string): Observable<number> {
     return this.http.post<number>(`${this.apiUrl}/login`, { username: username, password: password }, { withCredentials: true, observe: 'response' }).pipe(
       map(response => this.userId = response.body as number));
+  }
+
+  postReceipt(receipt: InputReceipt): Observable<Blob> {
+    return this.http.post<Blob>(`${this.apiUrl}/input`, { ...receipt, amount: receipt.amount.toString() }, { withCredentials: true });
+  }
+
+  getNumReceipts(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/num-receipts`, { withCredentials: true });
+  }
+
+  getReceipt(id: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/receipts/${id}`, { withCredentials: true, responseType: 'blob' });
   }
 
   getInvoice(): Observable<Blob> {

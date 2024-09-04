@@ -30,9 +30,6 @@ content-type: application/json
     "purpose": "built a patio"
 }
 
-###Get invoice
-GET http://localhost:3000/api/user/1
-
 ###Email invoice
 POST http://localhost:3000/api/email/1
 content-type: application/json
@@ -40,3 +37,24 @@ content-type: application/json
 {
     "email": "mattaman1234@gmail.com"
 }
+
+###Update receipt pdfs
+POST http://localhost:3000/api/create-receipts
+
+###Upload receipts to Azure
+POST http://localhost:3000/api/upload-receipts
+
+###Input receipt data
+POST http://localhost:3000/api/input
+content-type: application/json
+
+{
+    "date": "2-3-2024",
+    "customerName": "John Doe",
+    "paymentMethod": "Cash",
+    "amount": "200",
+    "address": "1234 Main St"
+}
+
+###Create and upload receipts
+GET http://localhost:3000/api/num-receipts

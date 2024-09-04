@@ -12,6 +12,7 @@ if (savedForm) {
   initialEmailValue = loadedForm.email;
 }
 
+console.log('LoginComponent loaded');
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -22,6 +23,7 @@ if (savedForm) {
 export class LoginComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   loginInvalid = signal(false);
+  formInvalid = signal(false);
   form = new FormGroup({
     email: new FormControl(initialEmailValue, {
       validators: [Validators.email, Validators.required],
@@ -68,8 +70,8 @@ export class LoginComponent implements OnInit {
       this.apiService.postLoginInfo(enteredEmail as string, enteredPassword as string).subscribe({
         next: (response) => {
           if (response) {
-            console.log('Logged in, redirecting to /invoice');
-            this.router.navigate(['/invoice'])
+            console.log('Logged in, redirecting to /input');
+            this.router.navigate(['/options'])
           }
           else {
             console.log('Login invalid.');
@@ -83,6 +85,7 @@ export class LoginComponent implements OnInit {
 
     }
     else {
+      this.formInvalid.set(true);
       console.log("Form Invalid");
     }
   }

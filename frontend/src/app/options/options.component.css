@@ -1,0 +1,48 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .btn {
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .input-receipt-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .view-receipts-btn {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .download-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn:hover {
+    transform: scale(1.05);
+  }
+  
+  .btn:active {
+    transform: scale(0.95);
+  }
+  

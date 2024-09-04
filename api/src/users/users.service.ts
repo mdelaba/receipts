@@ -1,18 +1,21 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InvoiceService } from 'src/invoices/invoice.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from './user.entity';
-import { Invoice } from '../invoices/invoice.entity';
 import { createInvoice } from 'src/invoices/create-invoice';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { ReceiptService } from 'src/invoices/receipt.service';
+import { InputReceipt } from 'src/invoices/input-receipt.entity';
+import { join } from 'path';
+import { CreateReceiptService } from 'src/invoices/create-receipt';
+import { UploadReceipt } from 'src/invoices/upload-receipt.entity';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class UsersService {
 
-    constructor(@InjectRepository(User) private userRepo: Repository<User>, private invoiceService: InvoiceService) { }
+    constructor(@InjectRepository(User) private userRepo: Repository<User>, @InjectRepository(UploadReceipt) private uploadRepo: Repository<UploadReceipt>, private receiptService: ReceiptService, private createReceiptService: CreateReceiptService) { }
 
     async signup(username: string, password: string) {
 
@@ -53,8 +56,8 @@ export class UsersService {
         return this.userRepo.findOneBy({ id });
     }
 
-    async getInvoice(userId: number) {
-        const invoice = await this.invoiceService.find(userId);
+    async getInvoice(id: number) {
+        const invoice = await this.receiptService.find(id);
 
         const fileName = 'invoice.pdf';
 
@@ -67,7 +70,29 @@ export class UsersService {
         return invoice;
     }
 
-    newInvoice(invoice: Invoice) {
-        return this.invoiceService.create(invoice);
+    newReceipt(receiptData: InputReceipt) {
+        return this.receiptService.create(receiptData);
+    }
+
+    async createReceipts() {
+        const receipts = await this.receiptService.getAllReceipts();
+
+        for (const receipt of receipts) {
+            const path = join(process.cwd(), 'receipts', `${receipt.id}.pdf`);
+            await this.createReceiptService.createReceipt(receipt, path);
+        }
+        return receipts;
+    }
+
+    async uploadReceipts(receipt_id: number, azure_file: string, local_file: string) {
+        await this.uploadRepo.save({ receipt_id: receipt_id, azure_url: azure_file, local_url: local_file });
+    }
+
+    async getReceipts() {
+        return this.uploadRepo.find();
+    }
+
+    async getReceipt(id: number) {
+        return await this.uploadRepo.findOne({ where: { receipt_id: id } });
     }
 }
