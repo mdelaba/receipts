@@ -1,0 +1,7 @@
+<app-upload (uploaded)="onUpload($event)"></app-upload>
+
+@if (dataSrc && type==='pdf') {
+<embed [src]="dataSrc" type="application/pdf" width="600px" height="600px" />
+} @else if (dataSrc && type==='image') {
+<img [src]="dataSrc" width="600px" height="600px" alt="Embedded Image" />
+}

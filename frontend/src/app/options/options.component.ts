@@ -13,6 +13,9 @@ export class OptionsComponent {
 
   constructor(private router: Router) { }
 
+  onViewIdentification() {
+    this.router.navigate(['/identification']);
+  }
   onInputReceipt() {
     this.router.navigate(['/input']);
   }

@@ -16,7 +16,7 @@ export class EnterEmailComponent {
   constructor(private apiService: ApiService) { }
 
   onSend() {
-    this.apiService.emailInvoice(this.email).subscribe({
+    this.apiService.emailInvoice(this.email, '1').subscribe({
       next: (response) => {
         console.log(response);
       }

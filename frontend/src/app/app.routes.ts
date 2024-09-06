@@ -37,6 +37,11 @@ export const routes: Routes = [
         title: 'View Receipt',
     },
     {
+        path: 'identification',
+        loadComponent: () => import('./identification/identification.component').then(mod => mod.IdentificationComponent), //lazy loading - only import component when we navigate to this route
+        title: 'Identification',
+    },
+    {
         path: '**',
         redirectTo: '',
     }

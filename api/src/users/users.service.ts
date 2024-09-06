@@ -10,12 +10,13 @@ import { InputReceipt } from 'src/invoices/input-receipt.entity';
 import { join } from 'path';
 import { CreateReceiptService } from 'src/invoices/create-receipt';
 import { UploadReceipt } from 'src/invoices/upload-receipt.entity';
+import { Identification } from 'src/invoices/identification.entity';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class UsersService {
 
-    constructor(@InjectRepository(User) private userRepo: Repository<User>, @InjectRepository(UploadReceipt) private uploadRepo: Repository<UploadReceipt>, private receiptService: ReceiptService, private createReceiptService: CreateReceiptService) { }
+    constructor(@InjectRepository(User) private userRepo: Repository<User>, @InjectRepository(UploadReceipt) private uploadRepo: Repository<UploadReceipt>, @InjectRepository(Identification) private identificationRepo: Repository<Identification>, private receiptService: ReceiptService, private createReceiptService: CreateReceiptService) { }
 
     async signup(username: string, password: string) {
 
@@ -94,5 +95,17 @@ export class UsersService {
 
     async getReceipt(id: number) {
         return await this.uploadRepo.findOne({ where: { receipt_id: id } });
+    }
+
+    async uploadIdentification(azure_file: string) {
+        await this.identificationRepo.save({ azure_url: azure_file });
+    }
+
+    async getIdentifications() {
+        return this.identificationRepo.find();
+    }
+
+    async getIdentification(id: number) {
+        return await this.identificationRepo.findOne({ where: { id: id } });
     }
 }
