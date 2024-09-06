@@ -1,3 +1,6 @@
 @if (pdfSrc) {
-<embed [src]="pdfSrc" type="application/pdf" width="600px" height="600px" />
+<div class="view-receipt">
+  <embed [src]="pdfSrc" type="application/pdf" width="600px" height="600px" />
+</div>
 }
+<app-invoices />

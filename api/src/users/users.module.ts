@@ -10,9 +10,10 @@ import { Receipt } from 'src/invoices/receipt.entity';
 import { CreateReceiptService } from 'src/invoices/create-receipt';
 import { UploadReceipt } from 'src/invoices/upload-receipt.entity';
 import { AzureService } from 'src/azure/azure/azure.service';
+import { Identification } from 'src/invoices/identification.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User, Receipt, UploadReceipt])],
+    imports: [TypeOrmModule.forFeature([User, Receipt, UploadReceipt, Identification])],
     controllers: [UsersController],
     providers: [UsersService, ReceiptService, CreateReceiptService, EmailService, AzureService],
 })

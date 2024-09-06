@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Param, Session, UseGuards, StreamableFile, BadRequestException, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, Session, UseGuards, StreamableFile, BadRequestException, Res, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDto } from 'src/dtos/login.dto';
 import { AuthGuard } from './guards/auth.guard';
@@ -13,6 +13,7 @@ import { Receipt } from 'src/invoices/receipt.entity';
 import { InputReceipt } from 'src/invoices/input-receipt.entity';
 import { AzureService } from 'src/azure/azure/azure.service';
 import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 const fs = require('fs');
 
 @Controller('/api')
@@ -109,22 +110,42 @@ export class UsersController {
         this.emailService.send(body.email);
     }
 
+    @Get('/identification')
+    // @UseGuards(AuthGuard)
+    async getIdentification() {
+        const containerName = 'receiptupload';
+        const uploadedIdentifications = await this.usersService.getIdentifications();
+        console.log(uploadedIdentifications);
+
+        const uploadedIdentification = uploadedIdentifications[uploadedIdentifications.length - 1];
+        console.log(uploadedIdentification);
+
+        const url = uploadedIdentification.azure_url;
+        console.log(`Fetching identification ${url} from cloud storage`);
+
+        const blobName = url.split(`${containerName}/`)[1];
+
+        const sasToken = await this.azureService.generateSASToken(blobName, containerName);
+
+        console.log(sasToken);
+
+        return { url, sasToken };
+    }
+
+    @Post('/upload')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadIdentification(@UploadedFile() file: Express.Multer.File) {
+        const containerName = 'receiptupload';
+        const upload = await this.azureService.uploadData(file, containerName);
+        this.usersService.uploadIdentification(upload);
+        return { message: 'File uploaded successfully', file };
+    }
+
     async uploadReceipts(receipts: Receipt[]) {
         const containerName = 'receiptupload';
         const receiptsFolderPath = join(process.cwd(), 'receipts');
 
         const uploadedReceipts = await this.usersService.getReceipts();
-
-        // const files = fs.readdirSync(receiptsFolderPath);
-        // // Listing all files using forEach
-        // files.forEach((file: string) => {
-        //     const path = join(receiptsFolderPath, file);
-        //     filePaths.push(path);
-        // });
-        // loop through receipts in local folder
-
-        // const upload = await this.azureService.uploadFile(join(receiptsFolderPath, 'newreceipt.pdf'), containerName);
-        // this.usersService.uploadReceipts(1, upload, join(receiptsFolderPath, 'newreceipt.pdf'));
 
         receipts.forEach(async receipt => {
             const receiptPath = join(receiptsFolderPath, `${receipt.id}.pdf`);

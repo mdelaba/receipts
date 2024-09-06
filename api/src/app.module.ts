@@ -11,6 +11,7 @@ import { Receipt } from './invoices/receipt.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureService } from './azure/azure/azure.service';
 import { UploadReceipt } from './invoices/upload-receipt.entity';
+import { Identification } from './invoices/identification.entity';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -28,7 +29,7 @@ const cookieSession = require('cookie-session');
       // username: config.get('DB_USERNAME'),
       // password: config.get('DB_PASSWORD'),
       database: 'azure_upload.sqlite',
-      entities: [User, Receipt, UploadReceipt],
+      entities: [User, Receipt, UploadReceipt, Identification],
       synchronize: true,
     }),
   }),

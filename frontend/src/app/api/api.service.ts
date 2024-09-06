@@ -37,7 +37,15 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/download/${this.userId}`, { withCredentials: true, responseType: 'blob' });
   }
 
-  emailInvoice(email: string): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/email/${this.userId}`, { email }, { withCredentials: true });
+  emailInvoice(email: string, receipt_id: string): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/email/${receipt_id}`, { email }, { withCredentials: true });
+  }
+
+  getIdentification(): Observable<{ url: string, sasToken: string }> {
+    return this.http.get<{ url: string, sasToken: string }>(`${this.apiUrl}/identification`, { withCredentials: true });
+  }
+
+  uploadIdentification(formData: FormData): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/upload`, formData);
   }
 }

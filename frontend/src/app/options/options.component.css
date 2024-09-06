@@ -23,6 +23,11 @@ body {
     transition: background-color 0.3s, transform 0.3s;
   }
   
+  .view-identification-btn {
+    background-color: #b92bb2;
+    color: white;
+  }
+
   .input-receipt-btn {
     background-color: #4CAF50;
     color: white;

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ApiService } from '../../api/api.service';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterLink, RouterLinkActive, RouterStateSnapshot } from '@angular/router';
+import { InvoicesComponent } from "../../invoices/invoices.component";
 
 console.log('ReceiptComponent loaded');
 @Component({
   selector: 'app-receipt',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, InvoicesComponent],
   templateUrl: './receipt.component.html',
   styleUrl: './receipt.component.css'
 })
